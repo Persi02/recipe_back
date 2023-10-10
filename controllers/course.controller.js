@@ -21,6 +21,7 @@ const createCourse = async(req, res, next) => {
 
   if(doc) {
     foundAuthor.courses.push(doc.id)
+    await foundAuthor.save()
   }
 
   res.json({
