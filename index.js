@@ -18,7 +18,7 @@ mongoose.connect(mongoURL, {
 .then(() => console.log("Connected"))
 .catch(e => console.log(e))
 
-
+// app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/course', courseRoutes);
 app.use('/api/privacy', privacyRoutes);
