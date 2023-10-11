@@ -1,5 +1,5 @@
 const User = require('../entity/User.entity')
-const { hashPassword, comparePassword } = require('../lib/auth').auth;
+const { hashPassword, comparePassword, generateToken, generateRefreshToken } = require('../lib/auth').auth;
 
 const createUser = async(req, res, next) => {
   try {
@@ -8,10 +8,24 @@ const createUser = async(req, res, next) => {
     user.password = passHashed;
 
     const doc = await user.save()
+    const token = generateToken({
+      username: doc.username,
+      email: doc.email,
+      password: doc.password
+    });
+
+    const refreshToken = generateRefreshToken({
+      username: doc.username,
+      email: doc.email,
+      password: doc.password
+    })
+
     res.json(
       { 
         message: "Created",
-        data: doc
+        data: doc,
+        token,
+        refreshToken
       }
     )
   } catch(err) {
@@ -29,8 +43,22 @@ const login = async(req, res, next) => {
     const isAuthenticate = comparePassword(req.body.password, userToFind.password);
 
     if(isAuthenticate) {
+      const token = generateToken({
+        username: userToFind.username,
+        email: userToFind.email,
+        password: userToFind.password
+      });
+
+      const refreshToken = generateRefreshToken({
+        username: userToFind.username,
+        email: userToFind.email,
+        password: userToFind.password
+      })
+
       return res.status(201).json({
-        user: userToFind
+        user: userToFind,
+        token,
+        refreshToken
       })
     } else {
       return res.status(401).json({
