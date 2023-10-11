@@ -10,6 +10,16 @@ require('dotenv').config();
 const mongoURL = process.env.MONGO_DB_URL;
 const app = express();
 
+// swagger config
+const swaggerUI = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
+const file = fs.readFileSync('./swagger.yaml', 'utf-8');
+const swaggerDocument = YAML.parse(file);
+let options = {
+  explorer: true
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -24,6 +34,9 @@ app.use('/api/user', userRoutes);
 app.use('/api/refreshToken', refreshToken);
 app.use('/api/course', verifyToken, courseRoutes);
 app.use('/api/privacy', verifyToken, privacyRoutes);
+
+// route for API documentation
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument, options))
 
 // app.get('/api/testJWT', verifyToken, (req, res) => {
 //   if(req.user) {
