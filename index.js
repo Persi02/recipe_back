@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user.routes');
 const courseRoutes = require('./routes/course.routes')
 const privacyRoutes = require('./routes/privacy.routes')
+const { verifyToken, refreshToken } = require('./lib/auth').auth;
+
 require('dotenv').config();
 const mongoURL = process.env.MONGO_DB_URL;
 const app = express();
@@ -18,10 +20,16 @@ mongoose.connect(mongoURL, {
 .then(() => console.log("Connected"))
 .catch(e => console.log(e))
 
-// app.use('/api/signup', signupRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/course', courseRoutes);
-app.use('/api/privacy', privacyRoutes);
+app.use('/api/refreshToken', refreshToken);
+app.use('/api/course', verifyToken, courseRoutes);
+app.use('/api/privacy', verifyToken, privacyRoutes);
+
+// app.get('/api/testJWT', verifyToken, (req, res) => {
+//   if(req.user) {
+//     return res.json({ message: "user authorized" })
+//   }
+// })
 
 app.set('PORT', 4400)
 

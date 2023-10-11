@@ -20,6 +20,12 @@ const CourseSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true
+  },
+  stars: {
+    type: Number,
+    required: false,
+    min: 0,
+    max: 5
   }
 })
 
