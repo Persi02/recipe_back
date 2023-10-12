@@ -34,7 +34,7 @@ mongoose.connect(mongoURL, {
 .catch(e => console.log(e))
 
 app.use('/api/user', userRoutes);
-app.use('/api/refreshToken', refreshToken);
+app.get('/api/refreshToken', refreshToken);
 app.use('/api/course', verifyToken, courseRoutes);
 app.use('/api/privacy', verifyToken, privacyRoutes);
 app.use('/api/role', roleRoutes);

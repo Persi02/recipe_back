@@ -61,6 +61,25 @@ paths:
       #   '405':
       #     description: Invalid input
 
+  /refreshToken:
+    get:
+      tags:
+        - To get new valid token
+      summary: Refresh token
+      description: Send refresh token value in header of the request
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFuZHJ5IiwicGFzc3dvcmQiOiIkMmIkMTUkUm1LNTdCa0FaNWRJOWlQY3MxcFM4T1I1MlBLeW5LNWtMUWkyck53clRELnBzSTVDczA3M0MiLCJpYXQiOjE2OTcxMDM3NzksImV4cCI6MTY5NzEwNDEzOX0.r1sbFueZwYqk03-iYMt3fUOJK6ZJDg2jWB3qG-6T6DA
+
+  
   /user:
     get:
       tags:
