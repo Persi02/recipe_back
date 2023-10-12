@@ -8,3 +8,5 @@
 4- run *docker-compose up -d* (*"-d"* means detached in console)
 
 5- The server run in 4400 port by default
+
+For the documentatio of the API go to **localhost:4400/api-docs**
