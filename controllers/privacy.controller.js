@@ -16,12 +16,9 @@ const getPrivacy = async(req, res, next) => {
     label: privacy
   })
 
-  if(!found) {
-    res.json({ message: "Not found" });
-    next()
-  } else {
-    res.json(found);
-  }
+  res.json({ data: found });
+  next()
+  
 }
 
 module.exports = {

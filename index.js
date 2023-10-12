@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user.routes');
 const courseRoutes = require('./routes/course.routes')
 const privacyRoutes = require('./routes/privacy.routes')
+const roleRoutes = require('./routes/role.routes');
 const { verifyToken, refreshToken } = require('./lib/auth').auth;
 
 require('dotenv').config();
@@ -34,6 +35,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/refreshToken', refreshToken);
 app.use('/api/course', verifyToken, courseRoutes);
 app.use('/api/privacy', verifyToken, privacyRoutes);
+app.use('/api/role', roleRoutes);
 
 // route for API documentation
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument, options))

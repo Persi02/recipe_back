@@ -33,7 +33,7 @@ const createCourse = async(req, res, next) => {
 const getCourses = async(req, res, next) => {
   const courses = await Course.find()
 
-  res.json({
+  return res.json({
     message: "All courses",
     data: courses
   })

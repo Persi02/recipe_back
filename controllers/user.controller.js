@@ -1,17 +1,40 @@
 const User = require('../entity/User.entity')
+const Role = require('..//entity/Role.entity');
 const { hashPassword, comparePassword, generateToken, generateRefreshToken } = require('../lib/auth').auth;
+
+const getAllUsers = async(req, res) => {
+  try {
+    const allUsers = await User.find();
+    return res.json({
+      data: allUsers
+    });
+
+  } catch(err) {
+    console.log("Error occured getting all users");
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 const createUser = async(req, res, next) => {
   try {
-    const user = new User(req.body)
+    const user = new User(req.body);
+    let role = null;
+
     const passHashed = await hashPassword(req.body.password);
     user.password = passHashed;
+    if(req.body.role) {
+      role = await Role.findOne({ label: req.body.role });
+      user.role = role.id;
+    } else {
+      role = await Role.findOne({ label: "USER" });
+      user.role = role.id;
+    }
 
     const doc = await user.save()
     const token = generateToken({
       username: doc.username,
       email: doc.email,
-      password: doc.password
+      password: doc.password,
     });
 
     const refreshToken = generateRefreshToken({
@@ -30,6 +53,7 @@ const createUser = async(req, res, next) => {
     )
   } catch(err) {
     console.error(err.message);
+    return res.status(500).json({ message: err.message });
   }
 }
 
@@ -45,13 +69,13 @@ const login = async(req, res, next) => {
     if(isAuthenticate) {
       const token = generateToken({
         username: userToFind.username,
-        email: userToFind.email,
+        // email: userToFind.email,
         password: userToFind.password
       });
 
       const refreshToken = generateRefreshToken({
         username: userToFind.username,
-        email: userToFind.email,
+        // email: userToFind.email,
         password: userToFind.password
       })
 
@@ -71,6 +95,7 @@ const login = async(req, res, next) => {
 }
 
 module.exports = {
+  getAllUsers,
   createUser,
   login
 }
