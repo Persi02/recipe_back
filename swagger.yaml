@@ -65,7 +65,7 @@ paths:
     get:
       tags:
         - user
-      summary: Get all users
+      summary: Get all users (Only for admin)
       description: Getting all users
       responses:
         '200':
@@ -78,7 +78,7 @@ paths:
     post:
       tags:
         - user
-      summary: post user
+      summary: Create user
       description: For creating user
       requestBody:
         description: Data needed for the new user
@@ -99,6 +99,19 @@ paths:
                 $ref: '#/components/schemas/user'
         '405':
           description: Invalid input
+
+  /user/login:
+    post:
+      tags:
+        - For login
+      summary: To connect in the platform
+      requestBody:
+        required: true
+        description: Data needed to post
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataPostUser'
   
   /course:
     get:
@@ -733,6 +746,24 @@ components:
         courses:
           type: array
           example: [ "https:\\www.youtube.com" ]
+        role:
+          type: string
+          example: ADMIN
+          description: Only required for creating admin. By default the value is "USER"
+      
+    dataPostUser:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        usermame:
+          type: string
+          example: "ihasina"
+        password:
+          type: string
+          example: "izahoIhany1234"
+
         #category:
           #$ref: '#/components/schemas/Category'
         # photoUrls:
