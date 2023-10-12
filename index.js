@@ -5,11 +5,13 @@ const userRoutes = require('./routes/user.routes');
 const courseRoutes = require('./routes/course.routes')
 const privacyRoutes = require('./routes/privacy.routes')
 const roleRoutes = require('./routes/role.routes');
+const cors = require('cors');
 const { verifyToken, refreshToken } = require('./lib/auth').auth;
 
 require('dotenv').config();
 const mongoURL = process.env.MONGO_DB_URL;
 const app = express();
+app.use(cors());
 
 // swagger config
 const swaggerUI = require('swagger-ui-express');
