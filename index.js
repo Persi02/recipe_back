@@ -38,11 +38,11 @@ app.use('/api/privacy', verifyToken, privacyRoutes);
 // route for API documentation
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument, options))
 
-// app.get('/api/testJWT', verifyToken, (req, res) => {
-//   if(req.user) {
-//     return res.json({ message: "user authorized" })
-//   }
-// })
+app.get('/api/testJWT', verifyToken, (req, res) => {
+  if(req.user) {
+    return res.json({ message: "user authorized" })
+  }
+})
 
 app.set('PORT', 4400)
 
