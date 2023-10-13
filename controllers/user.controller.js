@@ -59,7 +59,13 @@ const createUser = async(req, res, next) => {
 
 const login = async(req, res, next) => {
   try {
-    const userToFind = await User.findOne({ username: req.body.username });
+    const userToFind = await User.findOne({
+      $or: [
+        { username: req.body.username },
+        { email: req.body.email }
+      ]
+    });
+    
     if(!userToFind) {
       return res.status(401).json({ message: "User does not exists" });
     }
