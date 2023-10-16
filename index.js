@@ -12,7 +12,7 @@ const { hashFilename } = require('./lib/utils/hashFilename');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './data/uploads/images');
+    cb(null, './public/images');
   },
   filename: function(req, file, cb) {
     const exttype = file.mimetype.split('/')[1];
@@ -29,7 +29,7 @@ require('dotenv').config();
 const mongoURL = process.env.MONGO_DB_URL;
 const app = express();
 app.use(cors());
-app.use(express.static("data/uploads/images"))
+app.use(express.static("public/images"))
 
 // swagger config
 const swaggerUI = require('swagger-ui-express');
@@ -49,7 +49,7 @@ mongoose.connect(mongoURL, {
   useUnifiedTopology: true,
 })
 .then(async() => {
-  await createUploadDir('./data/uploads/images');
+  await createUploadDir('./public/images');
   console.log("Connected")
 })
 .catch(e => console.log(e))
