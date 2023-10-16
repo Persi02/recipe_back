@@ -1,5 +1,6 @@
 const Image = require('../entity/Image.entity');
 const User = require('../entity/User.entity');
+const { deleteImage } = require('../lib/utils/deleteImage');
 
 const saveImage = async(req, res, next) => {
   const { userId } = req.body;
@@ -23,6 +24,34 @@ const saveImage = async(req, res, next) => {
   }
 }
 
+const updateImage = async(req, res) => {
+  const { id }  = req.body;
+
+  try {
+    const doc = await Image.findById(id);
+    if(doc) {
+      deleteImage('./public/images/' + doc.nameHashed)
+    }
+
+    const updatedDoc = await Image.findOneAndUpdate(
+      { _id: id },
+      {
+        fileName: req.file.originalname,
+        nameHashed: req.file.filename
+      },
+      {
+        new: true
+      }
+    )
+    return res.json({ message: "Image updated", image: updatedDoc });
+
+  } catch(err) {
+    console.log(err)
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 module.exports = {
-  saveImage
+  saveImage,
+  updateImage
 }
