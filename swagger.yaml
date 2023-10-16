@@ -176,6 +176,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+  /images:
+    post:
+      tags:
+        - images
+      summary: Posting images
+      description: End-point for saving user image profil
+      requestBody:
+        description: image file to post
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: object
+                  example: File object type
+                userId:
+                  type: string
+                  example: 652d2867c73de05dca59edbd
+          image/png, image/jpeg:
+
 
   # /pet/findByTags:
   #   get:

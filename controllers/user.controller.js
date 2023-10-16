@@ -30,6 +30,8 @@ const createUser = async(req, res, next) => {
       user.role = role.id;
     }
 
+    user.avatar = null;
+
     const doc = await user.save()
     const token = generateToken({
       username: doc.username,
@@ -64,7 +66,8 @@ const login = async(req, res, next) => {
         { username: req.body.username },
         { email: req.body.email }
       ]
-    });
+    })
+    .populate('avatar');
     
     if(!userToFind) {
       return res.status(401).json({ message: "User does not exists" });

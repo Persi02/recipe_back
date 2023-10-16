@@ -24,7 +24,11 @@ const UserSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course"
     }
-  ]
+  ],
+  avatar: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image"
+  }
 })
 
 module.exports = mongoose.model('User', UserSchema);
