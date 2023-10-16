@@ -103,8 +103,29 @@ const login = async(req, res, next) => {
   }
 }
 
+const updateUser = async(req, res) => {
+  const { username, email, id } = req.body;
+  try {
+    const updatedDoc = await User.findOneAndUpdate
+    ({ _id: id }, 
+    {
+      username,
+      email
+    }, {
+      new: true
+    });
+
+    return res.json({ message: "User updated", user: updatedDoc })
+
+  } catch(err) {
+    return res.status(500).json({ message: err.message });
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllUsers,
   createUser,
-  login
+  login,
+  updateUser
 }

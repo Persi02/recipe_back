@@ -27,6 +27,8 @@ const CourseSchema = new mongoose.Schema({
     min: 0,
     max: 5
   }
+}, {
+  timestamps: true
 })
 
 module.exports = mongoose.model('Course', CourseSchema)

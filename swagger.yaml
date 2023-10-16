@@ -94,6 +94,17 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/user'
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: Edit some field in user
+      requestBody:
+        description: Update user by put method
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
     post:
       tags:
         - user
@@ -196,7 +207,26 @@ paths:
                   type: string
                   example: 652d2867c73de05dca59edbd
           image/png, image/jpeg:
-
+    put:
+      tags:
+        - images
+      summary: For updating image
+      description: End-point for updating image
+      requestBody:
+        description: data needed for updating image
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: id of the image to update
+                  example: 652d2867c73de05dca59edbd
+                file:
+                  type: object
+                  example: File object
+          image/png, image/jpeg:
 
   # /pet/findByTags:
   #   get:
