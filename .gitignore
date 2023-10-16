@@ -130,4 +130,5 @@ dist
 .pnp.*
 
 # static data
+public
 data/
